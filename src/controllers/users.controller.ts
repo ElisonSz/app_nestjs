@@ -1,5 +1,16 @@
-import { Controller, Get, Param } from '@nestjs/common';
-
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  Put,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Res,
+} from '@nestjs/common';
+import { Response } from 'express';
 @Controller('users')
 export class UsersController {
   users = [
@@ -18,8 +29,30 @@ export class UsersController {
   }
 
   @Get('/:id')
-  getUserByid(@Param('id') id: number): any {
+  getUserByid(@Res() res: Response, @Param('id') id: number): any {
     const oneUser = this.users.filter((user) => user.id == id);
-    return oneUser;
+    if (oneUser.length > 0) {
+      res.status(HttpStatus.OK).json(oneUser);
+    } else {
+      res.status(HttpStatus.NOT_FOUND).json(oneUser);
+    }
+  }
+  @Post()
+  create(@Body() payload: any): any {
+    const { username, password } = payload;
+    return {
+      username,
+      password,
+    };
+  }
+
+  @Put()
+  update(@Body() payload: any): any {
+    const { username, password, id } = payload;
+    return {
+      username,
+      password,
+      id,
+    };
   }
 }

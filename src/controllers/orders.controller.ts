@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 
 @Controller('orders')
 export class OrdersController {
@@ -34,5 +34,14 @@ export class OrdersController {
   getOrderById(@Param('id') id: number): any {
     const oneOrder = this.orders.filter((order) => order.id == id);
     return oneOrder;
+  }
+
+  @Post()
+  create(@Body() payload: any) {
+    const { numero_orden, items } = payload;
+    return {
+      numero_orden,
+      items,
+    };
   }
 }
