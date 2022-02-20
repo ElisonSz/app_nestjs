@@ -8,10 +8,12 @@ import {
   Res,
   HttpCode,
   HttpStatus,
-  ParseIntPipe,
+  //ParseIntPipe,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from '../services/product.service';
+import { ParseIntPipe } from '../common/parse-int.pipe';
+import { CreateProductDto } from '../dtos/products.dtos';
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductService) {}
@@ -35,10 +37,10 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body() payload: any) {
-    const { nombre, precio } = payload;
+  create(@Body() payload: CreateProductDto) {
+    const { name, descripcion, price, stock } = payload;
     return {
-      message: `${nombre} AND ${precio}`,
+      message: `${name} AND ${name} AND ${descripcion} AND ${price} AND ${stock}`,
     };
   }
 }
